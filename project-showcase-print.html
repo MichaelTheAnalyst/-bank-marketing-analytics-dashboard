@@ -1052,6 +1052,26 @@
                 print-color-adjust: exact;
             }
             
+            /* Fix Solution Image Section for Print */
+            .solution-image {
+                background: white !important;
+                border: 2px solid var(--primary) !important;
+                padding: var(--spacing-xl) !important;
+                page-break-inside: avoid;
+            }
+            
+            .solution-image::before {
+                display: none !important;
+            }
+            
+            .tech-badge {
+                background: var(--primary-lighter) !important;
+                color: var(--primary-dark) !important;
+                border: 1px solid var(--primary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
             /* Ensure demo iframe doesn't print */
             iframe {
                 display: none !important;
