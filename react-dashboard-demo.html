@@ -505,6 +505,154 @@
             border: 2px dashed var(--neutral-300);
         }
         
+        /* Visual Chart Mockups */
+        .visual-chart {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 1rem;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 1rem;
+            height: 100%;
+            padding: 1rem 0;
+        }
+        
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--primary-600), var(--primary-400));
+            border-radius: 0.375rem 0.375rem 0 0;
+            position: relative;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+        
+        .bar:hover {
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+        
+        .bar:nth-child(1) { height: 88%; background: linear-gradient(to top, var(--warning-600), var(--warning-500)); }
+        .bar:nth-child(2) { height: 45%; }
+        .bar:nth-child(3) { height: 72%; }
+        .bar:nth-child(4) { height: 91%; background: linear-gradient(to top, var(--success-600), var(--success-500)); }
+        .bar:nth-child(5) { height: 38%; }
+        .bar:nth-child(6) { height: 65%; }
+        .bar:nth-child(7) { height: 54%; }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--neutral-600);
+            white-space: nowrap;
+        }
+        
+        .pie-chart {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary-600) 0deg 130deg,
+                var(--success-500) 130deg 230deg,
+                var(--warning-500) 230deg 300deg,
+                var(--accent-purple) 300deg 360deg
+            );
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: auto;
+        }
+        
+        .pie-chart::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 0.25rem;
+        }
+        
+        .line-chart {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .line-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .demographic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+        
+        .demographic-item {
+            text-align: center;
+        }
+        
+        .demo-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+        
+        .demo-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-600);
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-label {
+            font-size: 0.938rem;
+            color: var(--neutral-600);
+        }
+        
         /* Model Performance Grid */
         .model-grid {
             display: grid;
@@ -784,9 +932,30 @@
                             <div class="chart-header">
                                 <h3>📈 Campaign Performance Overview</h3>
                             </div>
-                            <div class="chart-placeholder">
-                                Interactive Plotly charts displaying conversion trends, 
-                                campaign distribution, and performance metrics
+                            <div class="visual-chart">
+                                <div class="bar-chart">
+                                    <div class="bar">
+                                        <span class="bar-label">Jan</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">Feb</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">Mar</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">Apr</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">May</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">Jun</span>
+                                    </div>
+                                    <div class="bar">
+                                        <span class="bar-label">Jul</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -794,9 +963,27 @@
                             <div class="chart-header">
                                 <h3>👥 Customer Demographics Distribution</h3>
                             </div>
-                            <div class="chart-placeholder">
-                                Age distribution, job categories, education levels, 
-                                and marital status visualizations
+                            <div class="demographic-grid">
+                                <div class="demographic-item">
+                                    <div class="demo-icon">👤</div>
+                                    <div class="demo-value">41.1</div>
+                                    <div class="demo-label">Avg. Age</div>
+                                </div>
+                                <div class="demographic-item">
+                                    <div class="demo-icon">💼</div>
+                                    <div class="demo-value">12</div>
+                                    <div class="demo-label">Job Categories</div>
+                                </div>
+                                <div class="demographic-item">
+                                    <div class="demo-icon">🎓</div>
+                                    <div class="demo-value">8</div>
+                                    <div class="demo-label">Education Levels</div>
+                                </div>
+                                <div class="demographic-item">
+                                    <div class="demo-icon">💑</div>
+                                    <div class="demo-value">60%</div>
+                                    <div class="demo-label">Married</div>
+                                </div>
                             </div>
                         </div>
                     </div>
