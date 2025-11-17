@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive demo of Bank Marketing Analytics Dashboard - React + Flask platform">
+    <meta name="author" content="Masood Nazari">
+    <title>React Dashboard Demo | Bank Marketing Analytics</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           DESIGN SYSTEM - MATCHING REACT APP
+           ======================================== */
+        :root {
+            /* Banking Professional Color Palette */
+            --primary-50: #EFF6FF;
+            --primary-100: #DBEAFE;
+            --primary-200: #BFDBFE;
+            --primary-300: #93C5FD;
+            --primary-400: #60A5FA;
+            --primary-500: #3B82F6;
+            --primary-600: #2563EB;
+            --primary-700: #1D4ED8;
+            --primary-800: #1E40AF;
+            --primary-900: #1E3A8A;
+            
+            --success-500: #10B981;
+            --success-600: #059669;
+            --warning-500: #F59E0B;
+            --warning-600: #D97706;
+            
+            --neutral-50: #F9FAFB;
+            --neutral-100: #F3F4F6;
+            --neutral-200: #E5E7EB;
+            --neutral-300: #D1D5DB;
+            --neutral-400: #9CA3AF;
+            --neutral-500: #6B7280;
+            --neutral-600: #4B5563;
+            --neutral-700: #374151;
+            --neutral-800: #1F2937;
+            --neutral-900: #111827;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Poppins', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(to bottom right, var(--neutral-50), #ffffff, var(--primary-50));
+            color: var(--neutral-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ========================================
+           DEMO CONTAINER
+           ======================================== */
+        .demo-wrapper {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .demo-header {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+        
+        .demo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .demo-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-subtitle {
+            font-size: 1.125rem;
+            color: var(--neutral-600);
+            margin-bottom: 1rem;
+        }
+        
+        .demo-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-600);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-600);
+            border: 2px solid var(--primary-600);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-50);
+            transform: translateY(-2px);
+        }
+        
+        /* ========================================
+           MOCK DASHBOARD LAYOUT
+           ======================================== */
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            min-height: 800px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(to bottom, var(--neutral-900), var(--neutral-800), var(--neutral-900));
+            color: white;
+            padding: 1.5rem 0;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-logo {
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .logo-text h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--neutral-400);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.938rem;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+        }
+        
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+        
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            margin: 2rem 1rem 0;
+            background: rgba(37, 99, 235, 0.2);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.813rem;
+            padding: 0.5rem 0;
+        }
+        
+        .status-item span:first-child {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-indicator.online {
+            background: var(--success-500);
+            box-shadow: 0 0 8px var(--success-500);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--neutral-50);
+        }
+        
+        /* Header */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.25rem;
+        }
+        
+        .page-title p {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid var(--neutral-200);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .user-info h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .user-info p {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+        }
+        
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--neutral-200);
+            padding-bottom: 0;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--neutral-600);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.938rem;
+        }
+        
+        .tab-button:hover {
+            color: var(--primary-600);
+        }
+        
+        .tab-button.active {
+            color: var(--primary-600);
+            border-bottom-color: var(--primary-600);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-700));
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .metric-icon.primary {
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            color: var(--primary-700);
+        }
+        
+        .metric-icon.success {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            color: var(--success-600);
+        }
+        
+        .metric-icon.warning {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            color: var(--warning-600);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neutral-900);
+            font-family: var(--font-display);
+        }
+        
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+            font-weight: 500;
+        }
+        
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.813rem;
+        }
+        
+        .trend-up {
+            color: var(--success-600);
+        }
+        
+        .trend-down {
+            color: #EF4444;
+        }
+        
+        /* Chart Placeholder */
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+        }
+        
+        .chart-placeholder {
+            background: linear-gradient(135deg, var(--primary-50), var(--neutral-50));
+            height: 300px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-500);
+            font-size: 0.938rem;
+            border: 2px dashed var(--neutral-300);
+        }
+        
+        /* Model Performance Grid */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .model-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .model-card.best {
+            border-color: var(--primary-500);
+            background: linear-gradient(135deg, var(--primary-50), white);
+        }
+        
+        .model-score {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-600);
+            font-family: var(--font-display);
+        }
+        
+        .model-name {
+            font-size: 0.938rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin: 0.5rem 0;
+        }
+        
+        .model-metric {
+            font-size: 0.813rem;
+            color: var(--neutral-600);
+        }
+        
+        /* Footer */
+        .dashboard-footer {
+            background: white;
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--neutral-200);
+            text-align: center;
+            font-size: 0.813rem;
+            color: var(--neutral-600);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .demo-wrapper {
+                padding: 1rem;
+            }
+            
+            .demo-title {
+                font-size: 1.75rem;
+            }
+            
+            .demo-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-wrapper">
+        <!-- Demo Header -->
+        <div class="demo-header">
+            <div class="demo-badge">🚀 Live Interactive Demo</div>
+            <h1 class="demo-title">Bank Marketing Analytics Dashboard</h1>
+            <p class="demo-subtitle">
+                Production-ready React + Flask platform with premium banking UI/UX
+            </p>
+            <div class="demo-actions">
+                <a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard" 
+                   target="_blank" 
+                   class="btn btn-primary">
+                    📂 View Source Code
+                </a>
+                <a href="project-showcase.html" class="btn btn-secondary">
+                    📊 See ROI Analysis
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Container -->
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <div class="logo-icon">🏦</div>
+                    <div class="logo-text">
+                        <h2>BankAnalytics</h2>
+                        <p>ML Platform v2.0</p>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" data-tab="overview">
+                                <span class="nav-icon">📊</span>
+                                <span>Overview</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-tab="feature-importance">
+                                <span class="nav-icon">🎯</span>
+                                <span>Feature Importance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-tab="predictive-models">
+                                <span class="nav-icon">🤖</span>
+                                <span>Predictive Models</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-tab="segmentation">
+                                <span class="nav-icon">👥</span>
+                                <span>Customer Segmentation</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-tab="contact">
+                                <span class="nav-icon">📞</span>
+                                <span>Contact Optimization</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-tab="economic">
+                                <span class="nav-icon">💰</span>
+                                <span>Economic Impact</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <div class="status-item">
+                        <span>API Status</span>
+                        <span><span class="status-indicator online"></span>Online</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Models</span>
+                        <span>6 Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Data</span>
+                        <span>41,188 records</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Header -->
+                <header class="dashboard-header">
+                    <div class="header-content">
+                        <div class="page-title">
+                            <h1>Campaign Analytics Dashboard</h1>
+                            <p>Direct marketing campaigns analysis for term deposit subscriptions</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="user-badge">
+                                <div class="user-avatar">MN</div>
+                                <div class="user-info">
+                                    <h4>Masood Nazari</h4>
+                                    <p>Data Scientist</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content Area -->
+                <div class="content-area">
+                    <!-- Overview Tab -->
+                    <div class="tab-content active" id="overview">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">📊</div>
+                                </div>
+                                <div class="metric-value">41,188</div>
+                                <div class="metric-label">Total Records</div>
+                                <div class="metric-trend trend-up">
+                                    <span>↑ 100%</span>
+                                    <span>Dataset Loaded</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon success">✓</div>
+                                </div>
+                                <div class="metric-value">11.3%</div>
+                                <div class="metric-label">Overall Conversion Rate</div>
+                                <div class="metric-trend trend-up">
+                                    <span>↑ 2%</span>
+                                    <span>Above Industry Average</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">🎯</div>
+                                </div>
+                                <div class="metric-value">90.5%</div>
+                                <div class="metric-label">Best Model Accuracy</div>
+                                <div class="metric-trend trend-up">
+                                    <span>↑ Random Forest</span>
+                                    <span>Leading Performance</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon warning">£</div>
+                                </div>
+                                <div class="metric-value">£170K</div>
+                                <div class="metric-label">Projected Annual Value</div>
+                                <div class="metric-trend trend-up">
+                                    <span>↑ 11.3:1 ROI</span>
+                                    <span>Year 1 Estimate</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>📈 Campaign Performance Overview</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Interactive Plotly charts displaying conversion trends, 
+                                campaign distribution, and performance metrics
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>👥 Customer Demographics Distribution</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Age distribution, job categories, education levels, 
+                                and marital status visualizations
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Importance Tab -->
+                    <div class="tab-content" id="feature-importance">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">🌲</div>
+                                </div>
+                                <div class="metric-value">21</div>
+                                <div class="metric-label">Features Analyzed</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon success">🔝</div>
+                                </div>
+                                <div class="metric-value">Duration</div>
+                                <div class="metric-label">Top Feature (Excluded for deployment)</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon warning">⚙️</div>
+                                </div>
+                                <div class="metric-value">3</div>
+                                <div class="metric-label">ML Algorithms Compared</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🎯 Feature Importance Rankings</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Random Forest, Gradient Boosting, and Logistic Regression 
+                                feature importance comparisons with interactive bar charts
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🔄 Feature Correlation Heatmap</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Correlation matrix showing relationships between 
+                                top predictive features
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Predictive Models Tab -->
+                    <div class="tab-content" id="predictive-models">
+                        <h2 style="margin-bottom: 1.5rem; color: var(--neutral-900);">
+                            🤖 Machine Learning Model Performance
+                        </h2>
+                        
+                        <div class="model-grid">
+                            <div class="model-card best">
+                                <div class="model-score">90.5%</div>
+                                <div class="model-name">Random Forest</div>
+                                <div class="model-metric">Best Accuracy</div>
+                                <div style="margin-top: 0.5rem; font-size: 1.5rem;">🏆</div>
+                            </div>
+                            
+                            <div class="model-card">
+                                <div class="model-score">90.3%</div>
+                                <div class="model-name">Gradient Boosting</div>
+                                <div class="model-metric">Strong Generalisation</div>
+                            </div>
+                            
+                            <div class="model-card">
+                                <div class="model-score">89.8%</div>
+                                <div class="model-name">Logistic Regression</div>
+                                <div class="model-metric">Interpretable</div>
+                            </div>
+                            
+                            <div class="model-card">
+                                <div class="model-score">88.2%</div>
+                                <div class="model-name">Decision Tree</div>
+                                <div class="model-metric">Fast Inference</div>
+                            </div>
+                            
+                            <div class="model-card">
+                                <div class="model-score">87.5%</div>
+                                <div class="model-name">K-Nearest Neighbors</div>
+                                <div class="model-metric">Instance-Based</div>
+                            </div>
+                            
+                            <div class="model-card">
+                                <div class="model-score">84.3%</div>
+                                <div class="model-name">Naive Bayes</div>
+                                <div class="model-metric">Probabilistic</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>📊 ROC Curves Comparison</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Receiver Operating Characteristic curves for all 6 models
+                                showing AUC scores and threshold optimization
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🎯 Confusion Matrices</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Side-by-side confusion matrices showing True Positives,
+                                False Positives, True Negatives, and False Negatives
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Segmentation Tab -->
+                    <div class="tab-content" id="segmentation">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">👥</div>
+                                </div>
+                                <div class="metric-value">4</div>
+                                <div class="metric-label">Customer Segments</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon success">📈</div>
+                                </div>
+                                <div class="metric-value">15-20%</div>
+                                <div class="metric-label">Conversion Improvement</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon warning">🎯</div>
+                                </div>
+                                <div class="metric-value">K-Means</div>
+                                <div class="metric-label">Clustering Algorithm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🗺️ Customer Segments (PCA 2D Projection)</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                2D scatter plot showing customer segments after PCA reduction,
+                                colored by cluster and sized by conversion probability
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>📊 Segment Characteristics Comparison</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Radar charts and bar charts comparing demographic,
+                                behavioural, and conversion characteristics across segments
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Optimization Tab -->
+                    <div class="tab-content" id="contact">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">📞</div>
+                                </div>
+                                <div class="metric-value">1-2</div>
+                                <div class="metric-label">Optimal Contact Frequency</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon success">📱</div>
+                                </div>
+                                <div class="metric-value">Cellular</div>
+                                <div class="metric-label">Best Channel</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon warning">📅</div>
+                                </div>
+                                <div class="metric-value">Mar-May</div>
+                                <div class="metric-label">Best Months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>📊 Contact Frequency vs Conversion Rate</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Line chart showing diminishing returns after 2-3 contact attempts,
+                                with optimal contact frequency highlighted
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🗓️ Best Days and Months Analysis</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Heatmaps and bar charts showing conversion rates by
+                                day of week, month, and time of year
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Economic Impact Tab -->
+                    <div class="tab-content" id="economic">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon primary">💼</div>
+                                </div>
+                                <div class="metric-value">-0.58</div>
+                                <div class="metric-label">Employment Rate Correlation</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon success">📉</div>
+                                </div>
+                                <div class="metric-value">-0.65</div>
+                                <div class="metric-label">Euribor 3M Correlation</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <div class="metric-icon warning">📊</div>
+                                </div>
+                                <div class="metric-value">5</div>
+                                <div class="metric-label">Economic Indicators</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>🔗 Economic Indicator Correlations</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Correlation matrix and scatter plots showing relationships
+                                between economic indicators and campaign success
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3>📈 Optimal Economic Windows</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                Time series analysis identifying optimal economic conditions
+                                for campaign launches and resource allocation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="dashboard-footer">
+                    <p>
+                        © 2025 Masood Nazari | Bank Marketing Analytics Dashboard | 
+                        Built with React, Flask, Python & Machine Learning
+                    </p>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                
+                // Update page title
+                const pageTitles = {
+                    'overview': 'Campaign Analytics Dashboard',
+                    'feature-importance': 'Feature Importance Analysis',
+                    'predictive-models': 'Predictive Models Performance',
+                    'segmentation': 'Customer Segmentation',
+                    'contact': 'Contact Optimization Strategy',
+                    'economic': 'Economic Impact Analysis'
+                };
+                
+                document.querySelector('.page-title h1').textContent = pageTitles[tabId];
+            });
+        });
+
+        // Smooth scroll to top on tab change
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.content-area').scrollTop = 0;
+            });
+        });
+    </script>
+</body>
+</html>
