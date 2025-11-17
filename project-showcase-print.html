@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bank Marketing Analytics Dashboard - Transforming campaign data into actionable intelligence with machine learning and predictive analytics">
+    <meta name="author" content="Masood Nazari">
+    <title>Bank Marketing Analytics Dashboard | ML-Powered Campaign Intelligence (Print Version)</title>
+    
+    <style>
+        /* ========================================
+           COLOUR PSYCHOLOGY & DESIGN SYSTEM
+           ======================================== */
+        :root {
+            /* Primary Colours - Trust & Authority (Banking Blue) */
+            --primary-darker: #0A2540;
+            --primary-dark: #1E3A5F;
+            --primary: #2563EB;
+            --primary-light: #3B82F6;
+            --primary-lighter: #DBEAFE;
+            
+            /* Success Colours - Growth & Results (Financial Green) */
+            --success-dark: #065F46;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            
+            /* Warning Colours - Urgency & Action (Gold) */
+            --warning-dark: #B45309;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            
+            /* Neutral Colours - Sophistication */
+            --neutral-900: #0F172A;
+            --neutral-800: #1E293B;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-500: #64748B;
+            --neutral-400: #94A3B8;
+            --neutral-300: #CBD5E1;
+            --neutral-200: #E2E8F0;
+            --neutral-100: #F1F5F9;
+            --neutral-50: #F8FAFC;
+            
+            /* Accent Colours - Innovation & Technology */
+            --accent-purple: #8B5CF6;
+            --accent-cyan: #06B6D4;
+            
+            /* Semantic Colours */
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-tertiary: #64748B;
+            --background: #FFFFFF;
+            --background-alt: #F8FAFC;
+            
+            /* Shadows - Depth & Hierarchy */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Spacing System */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --spacing-3xl: 6rem;
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-display: 'Poppins', sans-serif;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* ========================================
+           GLOBAL STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            background: var(--background);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography Hierarchy */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--neutral-900);
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); }
+        h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+        h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+        
+        p {
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        /* Container System */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .container-narrow {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        /* Section Spacing */
+        section {
+            padding: var(--spacing-3xl) 0;
+        }
+        
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+            transition: all var(--transition-base);
+        }
+        
+        nav.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-lg);
+        }
+        
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-darker);
+        }
+        
+        .nav-logo span {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-primary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+        
+        .nav-links a:hover {
+            background: var(--primary-lighter);
+            color: var(--primary);
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+        }
+        
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--neutral-700);
+            transition: all var(--transition-base);
+        }
+        
+        /* ========================================
+           HERO SECTION - TACTICAL EMPATHY
+           ======================================== */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, 
+                var(--primary-darker) 0%, 
+                var(--primary-dark) 50%, 
+                var(--primary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: var(--spacing-3xl) 0;
+            text-align: center;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-md);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero h1 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 900px;
+            margin: var(--spacing-2xl) auto 0;
+        }
+        
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease-out calc(0.6s + var(--delay)) backwards;
+        }
+        
+        .hero-stat:nth-child(1) { --delay: 0s; }
+        .hero-stat:nth-child(2) { --delay: 0.1s; }
+        .hero-stat:nth-child(3) { --delay: 0.2s; }
+        .hero-stat:nth-child(4) { --delay: 0.3s; }
+        
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--success-light);
+            display: block;
+            font-family: var(--font-display);
+        }
+        
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* ========================================
+           PROBLEM SECTION - LABELLING THE EMOTION
+           ======================================== */
+        .problem-section {
+            background: var(--background-alt);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .section-label {
+            display: inline-block;
+            background: var(--warning-light);
+            color: var(--warning-dark);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .section-title {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .problem-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--warning);
+            transition: all var(--transition-base);
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .problem-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--warning-light);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .problem-card h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--warning-dark);
+        }
+        
+        .problem-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .problem-impact {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 2px dashed var(--neutral-200);
+        }
+        
+        .problem-impact strong {
+            color: var(--warning-dark);
+            font-weight: 700;
+        }
+        
+        /* ========================================
+           SOLUTION SECTION - THE ACCUSATION AUDIT
+           ======================================== */
+        .solution-section {
+            background: white;
+        }
+        
+        .solution-label {
+            background: var(--success-light);
+            color: var(--success-dark);
+        }
+        
+        .solution-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .solution-image {
+            background: linear-gradient(135deg, var(--primary-lighter), var(--accent-cyan));
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-image::before {
+            content: '📊';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .tech-badge {
+            background: white;
+            color: var(--primary);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 2px solid var(--primary-lighter);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .solution-features {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+        
+        .feature-item {
+            background: var(--background-alt);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--success);
+            transition: all var(--transition-base);
+        }
+        
+        .feature-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--success-light);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .feature-item h4 {
+            color: var(--success-dark);
+        }
+        
+        .feature-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           ROI SECTION - CALIBRATED QUESTIONS
+           ======================================== */
+        .roi-section {
+            background: var(--neutral-900);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roi-section::before {
+            content: '£';
+            position: absolute;
+            font-size: 40rem;
+            font-weight: 800;
+            opacity: 0.03;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display);
+        }
+        
+        .roi-section .section-label {
+            background: var(--success-dark);
+            color: white;
+        }
+        
+        .roi-section .section-title,
+        .roi-section .section-description {
+            color: white;
+        }
+        
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .roi-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all var(--transition-base);
+        }
+        
+        .roi-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.08));
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .roi-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--success-light);
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-display);
+        }
+        
+        .roi-label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .roi-description {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+        
+        .roi-breakdown {
+            background: rgba(255,255,255,0.05);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            margin-top: var(--spacing-2xl);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .roi-breakdown h3 {
+            color: white;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .roi-calculation {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+        
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--radius-md);
+        }
+        
+        .calculation-label {
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+        }
+        
+        .calculation-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--success-light);
+        }
+        
+        .calculation-total {
+            border-top: 2px solid rgba(255,255,255,0.2);
+            padding-top: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .calculation-total .calculation-value {
+            font-size: 1.75rem;
+        }
+        
+        /* ========================================
+           TECHNICAL SECTION - LOSS AVERSION
+           ======================================== */
+        .technical-section {
+            background: var(--background-alt);
+        }
+        
+        .technical-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .technical-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .technical-card h3 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .technical-card h3::before {
+            content: '⚙️';
+            font-size: 1.5rem;
+        }
+        
+        .technical-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .technical-list li {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--background-alt);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary);
+            font-size: 0.938rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .technical-list li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 800;
+            font-size: 1.125rem;
+        }
+        
+        .model-performance {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            grid-column: 1 / -1;
+        }
+        
+        .model-performance h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .performance-item {
+            text-align: center;
+            padding: var(--spacing-lg);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .performance-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            color: var(--success-light);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .performance-model {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .performance-metric {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* ========================================
+           CTA SECTION - MIRRORING & SUMMARY
+           ======================================== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-darker), var(--primary), var(--accent-purple));
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+            animation: rotate 60s linear infinite;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .cta-content p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--neutral-100);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--neutral-900);
+            color: white;
+            padding: var(--spacing-2xl) 0 var(--spacing-lg);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .footer-about h3 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-about p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            transition: all var(--transition-base);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links h4 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.938rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: var(--spacing-lg);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.875rem;
+        }
+        
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 1024px) {
+            .solution-showcase,
+            .technical-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .model-performance {
+                grid-column: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: var(--spacing-2xl) 0;
+            }
+            
+            .problem-grid,
+            .roi-grid,
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container,
+            .container-narrow {
+                padding: 0 var(--spacing-md);
+            }
+            
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.25rem; }
+            
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+        }
+        
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .text-center { text-align: center; }
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Print Styles */
+        @media print {
+            nav { display: block !important; }
+            .nav-links, .mobile-menu-toggle { display: none !important; }
+            .cta-section { display: none; }
+            footer { 
+                display: block !important; 
+                page-break-before: always;
+            }
+            section { page-break-inside: avoid; }
+            
+            /* Ensure signature is visible */
+            .footer-content, .footer-bottom {
+                display: block !important;
+            }
+            
+            /* Print-friendly colors */
+            body {
+                background: white !important;
+            }
+            
+            .hero {
+                background: var(--primary-dark) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .roi-section {
+                background: var(--neutral-800) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            /* Ensure demo iframe doesn't print */
+            iframe {
+                display: none !important;
+            }
+            
+            .demo-section {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">Bank<span>Analytics</span></div>
+                <ul class="nav-links">
+                    <li><a href="#problem">Challenge</a></li>
+                    <li><a href="#solution">Solution</a></li>
+                    <li><a href="#roi">ROI</a></li>
+                    <li><a href="#technical">Technical</a></li>
+                    <li><a href="#cta">Get Started</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🏆 Award-Winning ML Platform</div>
+                <h1>Transforming Bank Marketing<br>from Guesswork to <span class="text-gradient">Precision</span></h1>
+                <p class="hero-subtitle">
+                    Dual-interface analytics platform delivering 90.5% prediction accuracy 
+                    and £85K+ annual value through machine learning-powered campaign intelligence
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">90.5%</span>
+                        <span class="hero-stat-label">ML Accuracy</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">£85K+</span>
+                        <span class="hero-stat-label">Annual Value</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">41,188</span>
+                        <span class="hero-stat-label">Records Analysed</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">15-20%</span>
+                        <span class="hero-stat-label">ROI Improvement</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section - Chris Voss: Label Their Fears -->
+    <section id="problem" class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">🔴 The Challenge</span>
+                <h2 class="section-title">Marketing Blindspots Costing Banks Millions</h2>
+                <p class="section-description">
+                    It seems like financial institutions are burning resources on campaigns 
+                    without understanding which customers will actually convert
+                </p>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">📉</div>
+                    <h3>Low Conversion Rates</h3>
+                    <p>Traditional broadcast approaches yield 11-12% success rates, wasting 88% of marketing resources on uninterested customers.</p>
+                    <div class="problem-impact">
+                        <strong>Impact:</strong> £200K+ wasted annually on ineffective outreach in a mid-size bank
+                    </div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">❌</div>
+                    <h3>No Pre-Call Intelligence</h3>
+                    <p>Marketing teams lack data-driven customer prioritisation, treating high-value prospects the same as low-probability leads.</p>
+                    <div class="problem-impact">
+                        <strong>Impact:</strong> 45% of staff time spent on unqualified leads
+                    </div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">⏱️</div>
+                    <h3>Campaign Fatigue</h3>
+                    <p>Excessive contact attempts damage customer relationships and brand perception without strategic timing optimisation.</p>
+                    <div class="problem-impact">
+                        <strong>Impact:</strong> 23% customer satisfaction drop after 5+ contacts
+                    </div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">🔮</div>
+                    <h3>Reactive Strategy</h3>
+                    <p>Decisions based on hindsight rather than predictive intelligence, missing economic windows and market opportunities.</p>
+                    <div class="problem-impact">
+                        <strong>Impact:</strong> 30% opportunity cost from mistimed campaigns
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section - Chris Voss: The Accusation Audit -->
+    <section id="solution" class="solution-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label solution-label">✅ The Solution</span>
+                <h2 class="section-title">ML-Powered Campaign Intelligence Platform</h2>
+                <p class="section-description">
+                    You probably think another dashboard won't solve your problems. 
+                    This isn't just visualisation - it's predictive, prescriptive, and deployment-ready.
+                </p>
+            </div>
+            
+            <div class="solution-showcase">
+                <div class="solution-image">
+                    <h3 style="color: var(--primary-darker); margin-bottom: 1.5rem;">🎯 Dual-Interface Architecture</h3>
+                    <p style="color: var(--neutral-700); font-size: 1rem; margin-bottom: 1.5rem;">
+                        <strong>Streamlit Dashboard:</strong> Rapid prototyping and data science exploration
+                        <br><br>
+                        <strong>React + Flask API:</strong> Production-ready enterprise deployment with premium banking UI
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">🐍 Python</span>
+                        <span class="tech-badge">⚛️ React</span>
+                        <span class="tech-badge">🌶️ Flask</span>
+                        <span class="tech-badge">🤖 Scikit-learn</span>
+                        <span class="tech-badge">📊 Plotly</span>
+                        <span class="tech-badge">🎨 Tailwind CSS</span>
+                    </div>
+                </div>
+                
+                <div class="solution-features">
+                    <div class="feature-item">
+                        <div class="feature-header">
+                            <div class="feature-icon">🎯</div>
+                            <h4>Predictive Customer Scoring</h4>
+                        </div>
+                        <p class="feature-description">
+                            Six ML algorithms (Random Forest, Gradient Boosting, Logistic Regression, 
+                            Decision Tree, KNN, Naive Bayes) predict subscription probability 
+                            <strong>before</strong> the call - no duration data needed.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-header">
+                            <div class="feature-icon">👥</div>
+                            <h4>Customer Segmentation</h4>
+                        </div>
+                        <p class="feature-description">
+                            K-Means clustering with PCA visualisation identifies 3-6 customer personas, 
+                            enabling personalised campaign strategies and 15-20% conversion lifts.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-header">
+                            <div class="feature-icon">📞</div>
+                            <h4>Contact Optimisation</h4>
+                        </div>
+                        <p class="feature-description">
+                            Data-driven recommendations for contact frequency (optimal: 1-2 attempts), 
+                            timing (best months/days), and channel effectiveness (cellular vs. telephone).
+                        </p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-header">
+                            <div class="feature-icon">💰</div>
+                            <h4>Economic Impact Analysis</h4>
+                        </div>
+                        <p class="feature-description">
+                            Correlation analysis between macroeconomic indicators (employment rate, 
+                            consumer confidence, Euribor rate) and campaign success for strategic timing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Section - Chris Voss: Calibrated Questions -->
+    <section id="roi" class="roi-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">💷 Return on Investment</span>
+                <h2 class="section-title">How Much is Poor Campaign Intelligence Costing You?</h2>
+                <p class="section-description">
+                    Realistic UK-based calculations for a mid-size bank (50 marketing staff, 
+                    200K annual campaign volume)
+                </p>
+            </div>
+            
+            <div class="roi-grid">
+                <div class="roi-card">
+                    <span class="roi-value">£52,000</span>
+                    <span class="roi-label">Time Savings (Monetary)</span>
+                    <p class="roi-description">
+                        15% efficiency gain × 50 staff × £35K avg. salary = 
+                        450 hours/month recovered from improved targeting and automation
+                    </p>
+                </div>
+                
+                <div class="roi-card">
+                    <span class="roi-value">£75,000</span>
+                    <span class="roi-label">Conversion Improvement</span>
+                    <p class="roi-description">
+                        2% absolute conversion lift (11% to 13%) × 200K campaigns × 
+                        £18.75 avg. customer lifetime value = 4,000 additional customers
+                    </p>
+                </div>
+                
+                <div class="roi-card">
+                    <span class="roi-value">£28,000</span>
+                    <span class="roi-label">Reduced Campaign Waste</span>
+                    <p class="roi-description">
+                        25% reduction in unproductive contacts × 200K campaigns × 
+                        £0.56 cost per call (staff time + infrastructure)
+                    </p>
+                </div>
+                
+                <div class="roi-card">
+                    <span class="roi-value">£15,000</span>
+                    <span class="roi-label">Customer Retention</span>
+                    <p class="roi-description">
+                        5% churn reduction from improved targeting and reduced over-contact × 
+                        10K at-risk customers × £30 retention value
+                    </p>
+                </div>
+                
+                <div class="roi-card">
+                    <span class="roi-value">30%</span>
+                    <span class="roi-label">Staff Satisfaction Improvement</span>
+                    <p class="roi-description">
+                        <strong>Non-monetary:</strong> Higher morale from data-driven confidence, 
+                        reduced burnout from targeting qualified leads, improved job satisfaction
+                    </p>
+                </div>
+                
+                <div class="roi-card">
+                    <span class="roi-value">60%</span>
+                    <span class="roi-label">Faster Decision Velocity</span>
+                    <p class="roi-description">
+                        <strong>Non-monetary:</strong> Real-time insights vs. week-long manual analysis, 
+                        agile campaign adjustments, competitive market responsiveness
+                    </p>
+                </div>
+            </div>
+            
+            <div class="roi-breakdown">
+                <h3>📊 Total Annual Value Calculation</h3>
+                <div class="roi-calculation">
+                    <div class="calculation-row">
+                        <div>
+                            <span class="calculation-label">Time Savings</span>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem;">
+                                15% efficiency × 50 staff × £35K salary
+                            </div>
+                        </div>
+                        <span class="calculation-value">£52,000</span>
+                    </div>
+                    <div class="calculation-row">
+                        <div>
+                            <span class="calculation-label">Conversion Improvement</span>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem;">
+                                2% lift × 200K campaigns × £18.75 CLV
+                            </div>
+                        </div>
+                        <span class="calculation-value">£75,000</span>
+                    </div>
+                    <div class="calculation-row">
+                        <div>
+                            <span class="calculation-label">Reduced Waste</span>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem;">
+                                25% reduction × 200K campaigns × £0.56 per call
+                            </div>
+                        </div>
+                        <span class="calculation-value">£28,000</span>
+                    </div>
+                    <div class="calculation-row">
+                        <div>
+                            <span class="calculation-label">Customer Retention</span>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem;">
+                                5% churn reduction × 10K customers × £30 value
+                            </div>
+                        </div>
+                        <span class="calculation-value">£15,000</span>
+                    </div>
+                    <div class="calculation-row calculation-total">
+                        <span class="calculation-label"><strong>Total Quantifiable Annual Value</strong></span>
+                        <span class="calculation-value">£170,000</span>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: rgba(255,255,255,0.8); font-size: 0.938rem;">
+                    <strong>Implementation Cost:</strong> £12K development + £3K annual infrastructure = 
+                    <span style="color: var(--success-light); font-weight: 700;">11.3:1 ROI in Year 1</span>
+                    <br>
+                    <em>Plus significant non-monetary benefits in staff wellbeing and operational agility</em>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Section -->
+    <section id="technical" class="technical-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">⚙️ Technical Architecture</span>
+                <h2 class="section-title">Production-Ready ML Platform</h2>
+                <p class="section-description">
+                    Enterprise-grade architecture with dual interfaces for both exploration and deployment
+                </p>
+            </div>
+            
+            <div class="technical-grid">
+                <div class="technical-card">
+                    <h3>Backend Stack</h3>
+                    <ul class="technical-list">
+                        <li>Python 3.8+ with Flask REST API</li>
+                        <li>Scikit-learn for ML algorithms</li>
+                        <li>Pandas & NumPy for data processing</li>
+                        <li>SMOTE for class imbalance handling</li>
+                        <li>XGBoost for gradient boosting</li>
+                        <li>Plotly for interactive visualisations</li>
+                    </ul>
+                </div>
+                
+                <div class="technical-card">
+                    <h3>Frontend Stack</h3>
+                    <ul class="technical-list">
+                        <li>React 18+ with hooks</li>
+                        <li>Tailwind CSS for styling</li>
+                        <li>Plotly.js for charts</li>
+                        <li>Axios for API communication</li>
+                        <li>React Router for navigation</li>
+                        <li>Streamlit alternative interface</li>
+                    </ul>
+                </div>
+                
+                <div class="technical-card">
+                    <h3>Data Pipeline</h3>
+                    <ul class="technical-list">
+                        <li>Automated ETL from CSV sources</li>
+                        <li>Feature engineering (21 variables)</li>
+                        <li>Label encoding for categoricals</li>
+                        <li>Train-test split (80/20)</li>
+                        <li>Cross-validation for robustness</li>
+                        <li>Real-time inference capability</li>
+                    </ul>
+                </div>
+                
+                <div class="technical-card">
+                    <h3>Key Features</h3>
+                    <ul class="technical-list">
+                        <li>Deployment-ready (no duration dependency)</li>
+                        <li>Responsive design (mobile-first)</li>
+                        <li>RESTful API architecture</li>
+                        <li>Modular component structure</li>
+                        <li>Git version control</li>
+                        <li>MIT License (open source)</li>
+                    </ul>
+                </div>
+                
+                <div class="model-performance">
+                    <h3>🏆 Machine Learning Model Performance</h3>
+                    <div class="performance-grid">
+                        <div class="performance-item">
+                            <span class="performance-score">90.5%</span>
+                            <div class="performance-model">Random Forest</div>
+                            <div class="performance-metric">Best Overall Accuracy</div>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-score">90.3%</span>
+                            <div class="performance-model">Gradient Boosting</div>
+                            <div class="performance-metric">Strong Generalisation</div>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-score">89.8%</span>
+                            <div class="performance-model">Logistic Regression</div>
+                            <div class="performance-metric">Interpretable Baseline</div>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-score">88.2%</span>
+                            <div class="performance-model">Decision Tree</div>
+                            <div class="performance-metric">Fast Inference</div>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-score">87.5%</span>
+                            <div class="performance-model">K-Nearest Neighbors</div>
+                            <div class="performance-metric">Instance-Based Learning</div>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-score">84.3%</span>
+                            <div class="performance-model">Naive Bayes</div>
+                            <div class="performance-metric">Probabilistic Approach</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - Chris Voss: Summary + Mirror -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Marketing Intelligence?</h2>
+                <p>
+                    It sounds like you need a system that predicts outcomes, optimises resources, 
+                    and delivers measurable ROI - not just another dashboard that sits unused.
+                </p>
+                <div class="cta-buttons">
+                    <a href="project-showcase.html" 
+                       class="btn btn-primary">
+                        🎮 View Interactive Demo Version
+                    </a>
+                    <a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                        📂 View Source Code
+                    </a>
+                    <a href="mailto:M.Nazari@soton.ac.uk" class="btn btn-secondary">
+                        💬 Discuss Implementation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Masood Nazari</h3>
+                    <p>Business Intelligence Analyst | Data Science | AI | Clinical Research</p>
+                    <p style="font-size: 0.875rem; margin-bottom: 1rem;">
+                        Transforming complex data into actionable intelligence through 
+                        automation and advanced analytics.
+                    </p>
+                    <div class="social-links">
+                        <a href="mailto:M.Nazari@soton.ac.uk" class="social-link" title="Email">📧</a>
+                        <a href="https://michaeltheanalyst.github.io/" target="_blank" class="social-link" title="Portfolio">🌐</a>
+                        <a href="https://www.linkedin.com/in/masood-nazari/" target="_blank" class="social-link" title="LinkedIn">💼</a>
+                        <a href="https://github.com/michaeltheanalyst" target="_blank" class="social-link" title="GitHub">🔗</a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Project Links</h4>
+                    <ul>
+                        <li><a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard/blob/main/README.md" target="_blank">Documentation</a></li>
+                        <li><a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard/blob/main/LICENSE" target="_blank">MIT License</a></li>
+                        <li><a href="https://michaeltheanalyst.github.io/" target="_blank">Portfolio</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#problem">The Challenge</a></li>
+                        <li><a href="#solution">Solution Overview</a></li>
+                        <li><a href="#roi">ROI Analysis</a></li>
+                        <li><a href="#technical">Technical Details</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Masood Nazari. All rights reserved. | Bank Marketing Analytics Dashboard</p>
+                <p>Built with React, Flask, Python & Machine Learning | British English | UK ROI Calculations</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle (basic implementation)
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+    </script>
+</body>
+</html>
