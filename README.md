@@ -12,6 +12,17 @@
 
 ---
 
+## 🎯 **[View Professional Project Showcase →](https://michaeltheanalyst.github.io/-bank-marketing-analytics-dashboard/project-showcase.html)**
+
+**Stunning single-page presentation featuring:**
+- 📊 UK-based ROI calculations (£170K annual value)
+- 🎨 Banking-optimised colour psychology & UI/UX
+- 📖 Strategic storytelling with Chris Voss techniques
+- 📱 Fully responsive design
+- 💷 Realistic monetary & non-monetary impact analysis
+
+---
+
 ## 📊 Project Overview
 
 A comprehensive **dual-interface analytics platform** for analyzing Portuguese bank marketing campaign data. This project showcases end-to-end data science capabilities from ETL to machine learning to production-ready web applications, featuring both **Streamlit** and **React** dashboards.
