@@ -1021,8 +1021,45 @@
         
         /* Print Styles */
         @media print {
-            nav, .cta-section, footer { display: none; }
+            nav { display: block !important; }
+            .nav-links, .mobile-menu-toggle { display: none !important; }
+            .cta-section { display: none; }
+            footer { 
+                display: block !important; 
+                page-break-before: always;
+            }
             section { page-break-inside: avoid; }
+            
+            /* Ensure signature is visible */
+            .footer-content, .footer-bottom {
+                display: block !important;
+            }
+            
+            /* Print-friendly colors */
+            body {
+                background: white !important;
+            }
+            
+            .hero {
+                background: var(--primary-dark) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .roi-section {
+                background: var(--neutral-800) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            /* Ensure demo iframe doesn't print */
+            iframe {
+                display: none !important;
+            }
+            
+            .demo-section {
+                display: none !important;
+            }
         }
     </style>
 </head>
