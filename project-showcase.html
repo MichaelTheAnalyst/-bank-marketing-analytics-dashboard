@@ -1033,6 +1033,7 @@
             <div class="nav-container">
                 <div class="nav-logo">Bank<span>Analytics</span></div>
                 <ul class="nav-links">
+                    <li><a href="#demo">Demo</a></li>
                     <li><a href="#problem">Challenge</a></li>
                     <li><a href="#solution">Solution</a></li>
                     <li><a href="#roi">ROI</a></li>
@@ -1078,21 +1079,35 @@
                     </div>
                 </div>
                 
-                <!-- Demo CTA -->
-                <div style="margin-top: 3rem; animation: fadeInUp 1s ease-out 1s backwards;">
-                    <a href="react-dashboard-demo.html" 
-                       target="_blank"
-                       style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: rgba(255,255,255,0.95); color: var(--primary-darker); border-radius: 0.75rem; font-weight: 700; font-size: 1.125rem; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3);"
-                       onmouseover="this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 15px 40px rgba(0,0,0,0.4)';"
-                       onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';">
-                        <span style="font-size: 1.5rem;">🎮</span>
-                        <span>Try Interactive Demo</span>
-                        <span style="font-size: 1rem;">→</span>
-                    </a>
-                    <p style="margin-top: 1rem; font-size: 0.875rem; color: rgba(255,255,255,0.8);">
-                        Experience the full React dashboard with live navigation
-                    </p>
-                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="demo-section" style="background: white; padding: var(--spacing-3xl) 0;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label" style="background: linear-gradient(135deg, var(--primary-lighter), var(--primary)); color: white;">🎮 Interactive Demo</span>
+                <h2 class="section-title">Experience the Dashboard Live</h2>
+                <p class="section-description">
+                    Click through the navigation to explore all 6 analysis modules
+                </p>
+            </div>
+            
+            <!-- Embedded Dashboard Demo -->
+            <div style="margin-top: var(--spacing-2xl); background: linear-gradient(135deg, var(--neutral-50), var(--primary-50)); padding: var(--spacing-lg); border-radius: var(--radius-2xl); box-shadow: var(--shadow-xl);">
+                <iframe 
+                    src="react-dashboard-demo.html" 
+                    style="width: 100%; height: 900px; border: none; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);"
+                    title="Interactive React Dashboard Demo">
+                </iframe>
+            </div>
+            
+            <div style="margin-top: var(--spacing-lg); text-align: center;">
+                <p style="color: var(--text-secondary); font-size: 0.938rem;">
+                    💡 <strong>Tip:</strong> Navigate through Overview, Feature Importance, Predictive Models, 
+                    Customer Segmentation, Contact Optimization, and Economic Impact sections
+                </p>
             </div>
         </div>
     </section>
@@ -1440,14 +1455,9 @@
                     and delivers measurable ROI - not just another dashboard that sits unused.
                 </p>
                 <div class="cta-buttons">
-                    <a href="react-dashboard-demo.html" 
-                       target="_blank" 
-                       class="btn btn-primary">
-                        🎮 Try Interactive Demo
-                    </a>
                     <a href="https://github.com/MichaelTheAnalyst/-bank-marketing-analytics-dashboard" 
                        target="_blank" 
-                       class="btn btn-secondary">
+                       class="btn btn-primary">
                         📂 View Source Code
                     </a>
                     <a href="mailto:M.Nazari@soton.ac.uk" class="btn btn-secondary">
